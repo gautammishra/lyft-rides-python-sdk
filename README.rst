@@ -35,7 +35,11 @@ If you just need access to resources that are not user-specific (eg. ETA, cost, 
     from lyft_rides.auth import ClientCredentialGrant
     from lyft_rides.session import Session
 
-    auth_flow = ClientCredentialGrant(client_id=YOUR_CLIENT_ID, client_secret=YOUR_CLIENT_SECRET, scopes=YOUR_PERMISSION_SCOPES)
+    auth_flow = ClientCredentialGrant(
+	YOUR_CLIENT_ID,
+	YOUR_CLIENT_SECRET, 
+	YOUR_PERMISSION_SCOPES,
+	)
     session = auth_flow.get_session()
 
 Use this Session to create an LyftRidesClient and fetch API resources:
@@ -120,7 +124,11 @@ To send a real-time request to send a Lyft driver to the specified start locatio
 
 .. code-block::
 
-    auth_flow = ClientCredentialGrant(client_id=YOUR_CLIENT_ID, client_secret=YOUR_CLIENT_SECRET, scopes=YOUR_PERMISSION_SCOPES, sandbox_mode=False)
+    auth_flow = ClientCredentialGrant(
+	YOUR_CLIENT_ID,
+	YOUR_CLIENT_SECRET,
+	YOUR_PERMISSION_SCOPES,
+	sandbox_mode=False)
 
 or AuthorizationCodeGrant with
 
@@ -130,7 +138,7 @@ or AuthorizationCodeGrant with
         YOUR_CLIENT_ID,
         YOUR_CLIENT_SECRET,
 	YOUR_PERMISSION_SCOPES,
-	sandbox_mode=False
+	sandbox_mode=False,
     )
 
 The default for `sandbox_mode` is set to `True`. See the `documentation <https://developer.lyft.com/docs/sandbox>`_ to read more about using the Sandbox Environment.
