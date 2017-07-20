@@ -173,7 +173,7 @@ class Request(object):
         if token_type not in http.VALID_TOKEN_TYPES:
             return False
 
-        allowed_chars = ascii_letters + digits + '_' + '-' + '=='
+        allowed_chars = ascii_letters + digits + '_' + '-' + '==' + '+' + '/'
 
         # True if token only contains allowed_chars
         return all(characters in allowed_chars for characters in token)
