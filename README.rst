@@ -1,6 +1,6 @@
-*********************
+********************************
 Unofficial Lyft Rides Python SDK
-*********************
+********************************
 
 Python SDK (beta) to support the `Lyft Rides API <https://developer.lyft.com/docs/>`_.
 
@@ -30,21 +30,21 @@ Read-Only Use
 
 If you just need access to resources that are not user-specific (eg. ETA, cost, ride types) you will go through a "2-legged" flow. In this case, you can create a Session using ClientCredentialGrant with the Client ID and Client Secret you received after `registering your app <https://www.lyft.com/developers/manage>`_.
 
-.. code-block::
+.. code-block:: python
 
     from lyft_rides.auth import ClientCredentialGrant
     from lyft_rides.session import Session
 
     auth_flow = ClientCredentialGrant(
 	YOUR_CLIENT_ID,
-	YOUR_CLIENT_SECRET, 
+	YOUR_CLIENT_SECRET,
 	YOUR_PERMISSION_SCOPES,
 	)
     session = auth_flow.get_session()
 
 Use this Session to create an LyftRidesClient and fetch API resources:
 
-.. code-block::
+.. code-block:: python
 
     from lyft_rides.client import LyftRidesClient
 
@@ -59,7 +59,7 @@ If you need access to a Lyft user's account in order to make requests on their b
 
 The Authorization Code flow is a two-step authorization process. The first step is having the user authorize your app and the second involves requesting an OAuth 2.0 access token from Lyft. This process is mandatory if you want to take actions on behalf of a user or access their information.
 
-.. code-block::
+.. code-block:: python
 
     from lyft_rides.auth import AuthorizationCodeGrant
     auth_flow = AuthorizationCodeGrant(
@@ -71,7 +71,7 @@ The Authorization Code flow is a two-step authorization process. The first step 
 
 Navigate the user to the `auth_url` where they can grant access to your application. After, they will be redirected to a `redirect_url` with the format REDIRECT_URL?code=UNIQUE_AUTH_CODE. Use this `redirect_url` to create a session and start LyftRidesClient.
 
-.. code-block::
+.. code-block:: python
 
     session = auth_flow.get_session(redirect_url)
     client = LyftRidesClient(session)
@@ -96,7 +96,7 @@ The example above stores user credentials in `examples/oauth2_session_store.yaml
 Get Available Products
 """"""""""""""""""""""
 
-.. code-block::
+.. code-block:: python
 
     response = client.get_ride_types(37.7833, -122.4167)
     ride_types = response.json.get('ride_types')
@@ -105,7 +105,7 @@ Get Available Products
 Request a Ride
 """"""""""""""
 
-.. code-block::
+.. code-block:: python
 
     response = client.request_ride(
         ride_type=ride_type,
@@ -122,7 +122,7 @@ This does not make a real-time request. It makes a request to the sandbox enviro
 
 To send a real-time request to send a Lyft driver to the specified start location, make sure to instantiate your ClientCredentialGrant with
 
-.. code-block::
+.. code-block:: python
 
     auth_flow = ClientCredentialGrant(
 	YOUR_CLIENT_ID,
@@ -132,7 +132,7 @@ To send a real-time request to send a Lyft driver to the specified start locatio
 
 or AuthorizationCodeGrant with
 
-.. code-block::
+.. code-block:: python
 
     auth_flow = AuthorizationCodeGrant(
         YOUR_CLIENT_ID,
