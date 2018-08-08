@@ -11,6 +11,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+try:
+    from future.utils import viewitems
+except ImportError:
+    viewitems = None
+
 
 class APIError(Exception):
     """Parent class of all Lyft API errors."""
@@ -41,7 +46,11 @@ class HTTPError(APIError):
 
             for error in errors:
                 if type(error) == dict:
-                    for parameter, title in error.iteritems():
+                    if viewitems:
+                        items = viewitems(error)
+                    else:
+                        items = error.items()
+                    for parameter, title in items:
                         e.append(ErrorDetails(parameter, title))
         elif 'error_description' in original_body:
             e.append(original_body.get('error_description'))
@@ -73,6 +82,7 @@ class ClientError(HTTPError):
         errors, meta = super(ClientError, self)._adapt_response(response)
         self.errors = errors
         self.meta = meta
+        self.response = response
 
 
 class ServerError(HTTPError):
@@ -97,11 +107,12 @@ class ServerError(HTTPError):
 
         super(ServerError, self).__init__(message)
         self.error, self.meta = self._adapt_response(response)
+        self.response = response
 
     def _adapt_response(self, response):
         """Convert various error responses to standardized ErrorDetails."""
         errors, meta = super(ServerError, self)._adapt_response(response)
-        return errors[0], meta  # single error instead of array
+        return errors[0] if errors else None, meta  # single error instead of array
 
 
 class ErrorDetails(object):
