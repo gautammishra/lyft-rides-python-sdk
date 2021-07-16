@@ -13,7 +13,7 @@ with open('README.rst') as f:
 setup(
     name='lyft_rides',
     version='0.2',
-    packages=find_packages(),
+    packages=find_packages(exclude=['examples']),
     description='Unofficial Lyft Rides API Python SDK',
     long_description=readme,
     url='https://github.com/gautammishra/lyft-rides-python-sdk',
